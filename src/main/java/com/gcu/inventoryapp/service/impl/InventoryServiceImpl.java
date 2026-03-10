@@ -36,4 +36,9 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Inventory> getLowStock(int threshold) {
         return inventoryRepository.findByQuantityLessThan(threshold);
     }
+
+    @Override
+    public Optional<Inventory> getInventoryByProductId(Long productId) {
+        return inventoryRepository.findByProductId(productId);
+    }
 }

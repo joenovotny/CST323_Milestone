@@ -17,11 +17,11 @@
                 <option value="">Select Product</option>
                 <option th:each="product : ${products}"
                         th:value="${product.id}"
-                        th:text="${product.name}"
-                        th:selected="${inventory.product != null and inventory.product.id == product.id}">
+                        th:text="${product.name}">
                 </option>
             </select>
         </div>
+<div th:if="${duplicateError}" class="alert alert-danger" th:text="${duplicateError}"></div>
 
         <div class="mb-3">
             <label class="form-label">Quantity</label>

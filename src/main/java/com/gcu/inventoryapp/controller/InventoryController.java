@@ -35,23 +35,29 @@ public class InventoryController {
         return "inventory-form";
     }
 
-    @PostMapping("/save")
-    public String saveInventory(@Valid @ModelAttribute("inventory") Inventory inventory,
-                                BindingResult result,
-                                @RequestParam("productId") Long productId,
-                                Model model) {
+  @PostMapping("/save")
+public String saveInventory(@Valid @ModelAttribute("inventory") Inventory inventory,
+                            BindingResult result,
+                            @RequestParam("productId") Long productId,
+                            Model model) {
 
-        if (result.hasErrors()) {
-            model.addAttribute("products", productService.getAllProducts());
-            return "inventory-form";
-        }
-
-        Product product = productService.getProductById(productId).orElseThrow();
-        inventory.setProduct(product);
-
-        inventoryService.saveInventory(inventory);
-        return "redirect:/inventory";
+    if (result.hasErrors()) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "inventory-form";
     }
+
+    if (inventory.getId() == null && inventoryService.getInventoryByProductId(productId).isPresent()) {
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("duplicateError", "Inventory already exists for that product. Please edit the existing record.");
+        return "inventory-form";
+    }
+
+    Product product = productService.getProductById(productId).orElseThrow();
+    inventory.setProduct(product);
+
+    inventoryService.saveInventory(inventory);
+    return "redirect:/inventory";
+}
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
