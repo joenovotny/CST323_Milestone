@@ -2,9 +2,12 @@
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/controller/CustomerController.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/controller/HomeController.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/controller/InventoryController.java
+/Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/controller/OrderController.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/controller/ProductController.java
+/Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/controller/ReportsController.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/model/Customer.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/model/Inventory.java
+/Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/model/OrderForm.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/model/OrderHeader.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/model/OrderItem.java
 /Volumes/X10 Drive/CST323_Milestone/CST323_Milestone/src/main/java/com/gcu/inventoryapp/model/Product.java

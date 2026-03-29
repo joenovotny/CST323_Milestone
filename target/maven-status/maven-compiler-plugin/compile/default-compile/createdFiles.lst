@@ -15,11 +15,14 @@ com/gcu/inventoryapp/service/OrderService.class
 com/gcu/inventoryapp/model/User.class
 com/gcu/inventoryapp/service/impl/ProductServiceImpl.class
 com/gcu/inventoryapp/service/ProductService.class
+com/gcu/inventoryapp/controller/ReportsController.class
+com/gcu/inventoryapp/model/OrderForm.class
 com/gcu/inventoryapp/model/OrderHeader.class
 com/gcu/inventoryapp/service/InventoryService.class
 com/gcu/inventoryapp/repository/CustomerRepository.class
 com/gcu/inventoryapp/repository/InventoryRepository.class
 com/gcu/inventoryapp/repository/OrderHeaderRepository.class
 com/gcu/inventoryapp/model/Inventory.class
+com/gcu/inventoryapp/controller/OrderController.class
 com/gcu/inventoryapp/service/CustomerService.class
 com/gcu/inventoryapp/InventoryappApplication.class
