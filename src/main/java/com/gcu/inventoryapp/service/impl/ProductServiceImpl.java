@@ -1,6 +1,8 @@
 package com.gcu.inventoryapp.service.impl;
 
 import com.gcu.inventoryapp.model.Product;
+import com.gcu.inventoryapp.repository.InventoryRepository;
+import com.gcu.inventoryapp.repository.OrderItemRepository;
 import com.gcu.inventoryapp.repository.ProductRepository;
 import com.gcu.inventoryapp.service.ProductService;
 import org.slf4j.Logger;
@@ -16,9 +18,15 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
+    private final InventoryRepository inventoryRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              InventoryRepository inventoryRepository,
+                              OrderItemRepository orderItemRepository) {
         this.productRepository = productRepository;
+        this.inventoryRepository = inventoryRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
@@ -53,9 +61,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public boolean deleteProduct(Long id) {
         logger.info("Entering deleteProduct() with id={}", id);
+
+        boolean hasInventory = inventoryRepository.existsByProductId(id);
+        boolean hasOrderItems = orderItemRepository.existsByProductId(id);
+
+        if (hasInventory || hasOrderItems) {
+            logger.warn("Cannot delete product id={} because it is linked to inventory or order items", id);
+            logger.info("Exiting deleteProduct() with failure");
+            return false;
+        }
+
         productRepository.deleteById(id);
-        logger.info("Exiting deleteProduct()");
+        logger.info("Exiting deleteProduct() successfully");
+        return true;
     }
 }

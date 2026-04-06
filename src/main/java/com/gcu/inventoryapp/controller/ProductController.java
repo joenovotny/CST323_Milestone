@@ -66,13 +66,32 @@ public class ProductController {
         return "product-form";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        logger.info("Entering deleteProduct() with id={}", id);
+@GetMapping("/delete/{id}")
+public String deleteProduct(@PathVariable Long id) {
+    logger.info("Entering deleteProduct() with id={}", id);
 
-        productService.deleteProduct(id);
+    boolean deleted = productService.deleteProduct(id);
 
-        logger.info("Exiting deleteProduct()");
-        return "redirect:/products";
+    if (!deleted) {
+        logger.warn("Delete blocked for product id={}", id);
+        return "redirect:/products?deleteError=Product cannot be deleted because it is linked to inventory or orders.";
     }
+
+    logger.info("Exiting deleteProduct()");
+    return "redirect:/products";
+}
+
+@GetMapping
+public String listProducts(Model model,
+                           @RequestParam(value = "deleteError", required = false) String deleteError) {
+    logger.info("Entering listProducts()");
+    model.addAttribute("products", productService.getAllProducts());
+
+    if (deleteError != null) {
+        model.addAttribute("deleteError", deleteError);
+    }
+
+    logger.info("Exiting listProducts()");
+    return "products";
+}
 }

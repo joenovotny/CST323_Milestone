@@ -8,5 +8,5 @@ public interface ProductService {
     List<Product> getAllProducts();
     Optional<Product> getProductById(Long id);
     Product saveProduct(Product product);
-    void deleteProduct(Long id);
+    boolean deleteProduct(Long id);
 }

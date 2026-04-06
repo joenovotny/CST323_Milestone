@@ -8,6 +8,7 @@
 <div class="container mt-4">
     <h2>Products</h2>
     <a href="/products/add" class="btn btn-primary mb-3">Add Product</a>
+    <div th:if="${deleteError}" class="alert alert-danger" th:text="${deleteError}"></div>
     <a href="/dashboard" class="btn btn-secondary mb-3">Back</a>
 
     <table class="table table-bordered table-striped">
