@@ -64,8 +64,8 @@ public class ProductServiceImpl implements ProductService {
     public boolean deleteProduct(Long id) {
         logger.info("Entering deleteProduct() with id={}", id);
 
-        boolean hasInventory = inventoryRepository.existsByProductId(id);
-        boolean hasOrderItems = orderItemRepository.existsByProductId(id);
+boolean hasInventory = inventoryRepository.existsByProduct_Id(id);
+boolean hasOrderItems = orderItemRepository.existsByProduct_Id(id);
 
         if (hasInventory || hasOrderItems) {
             logger.warn("Cannot delete product id={} because it is linked to inventory or order items", id);
