@@ -6,6 +6,8 @@ import com.gcu.inventoryapp.service.CustomerService;
 import com.gcu.inventoryapp.service.InventoryService;
 import com.gcu.inventoryapp.service.OrderService;
 import com.gcu.inventoryapp.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     private final OrderService orderService;
     private final CustomerService customerService;
@@ -38,37 +42,49 @@ public class OrderController {
 
     @GetMapping
     public String listOrders(Model model) {
+        logger.info("Entering listOrders()");
         model.addAttribute("orders", orderService.getAllOrders());
+        logger.info("Exiting listOrders()");
         return "orders";
     }
 
     @GetMapping("/add")
     public String showOrderForm(Model model) {
+        logger.info("Entering showOrderForm()");
         model.addAttribute("orderForm", new OrderForm());
         model.addAttribute("customers", customerService.getAllCustomers());
         model.addAttribute("products", productService.getAllProducts());
+        logger.info("Exiting showOrderForm()");
         return "order-form";
     }
 
     @PostMapping("/save")
     public String saveOrder(@ModelAttribute OrderForm orderForm, Model model) {
+        logger.info("Entering saveOrder() with customerId={}, productId={}, quantity={}",
+                orderForm.getCustomerId(), orderForm.getProductId(), orderForm.getQuantity());
+
         Customer customer = customerService.getCustomerById(orderForm.getCustomerId()).orElseThrow();
         Product product = productService.getProductById(orderForm.getProductId()).orElseThrow();
         Inventory inventory = inventoryService.getInventoryByProductId(product.getId()).orElseThrow();
 
         if (orderForm.getQuantity() <= 0) {
+            logger.warn("Invalid quantity submitted in saveOrder(): {}", orderForm.getQuantity());
             model.addAttribute("error", "Quantity must be greater than 0.");
             model.addAttribute("orderForm", orderForm);
             model.addAttribute("customers", customerService.getAllCustomers());
             model.addAttribute("products", productService.getAllProducts());
+            logger.info("Exiting saveOrder() with invalid quantity");
             return "order-form";
         }
 
         if (inventory.getQuantity() < orderForm.getQuantity()) {
+            logger.warn("Insufficient inventory for productId={}. Available={}, Requested={}",
+                    product.getId(), inventory.getQuantity(), orderForm.getQuantity());
             model.addAttribute("error", "Not enough inventory available.");
             model.addAttribute("orderForm", orderForm);
             model.addAttribute("customers", customerService.getAllCustomers());
             model.addAttribute("products", productService.getAllProducts());
+            logger.info("Exiting saveOrder() with insufficient inventory");
             return "order-form";
         }
 
@@ -98,6 +114,7 @@ public class OrderController {
         inventory.setQuantity(inventory.getQuantity() - orderForm.getQuantity());
         inventoryService.saveInventory(inventory);
 
+        logger.info("Exiting saveOrder() successfully");
         return "redirect:/orders";
     }
 }
