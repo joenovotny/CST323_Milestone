@@ -14,5 +14,5 @@ steps:
       - --allow-unauthenticated
       - --add-cloudsql-instances=milestone-cst323:us-central1:milestone-cst323-project
 
-      options:
+options:
   logging: CLOUD_LOGGING_ONLY
