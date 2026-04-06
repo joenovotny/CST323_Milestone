@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/buildpacks/builder'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/inventoryapp']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - inventoryapp
+      - --image=gcr.io/$PROJECT_ID/inventoryapp
+      - --region=us-central1
+      - --platform=managed
+      - --allow-unauthenticated
+      - --add-cloudsql-instances=milestone-cst323:us-central1:milestone-cst323-project
