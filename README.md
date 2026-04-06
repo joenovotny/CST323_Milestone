@@ -7,4 +7,4 @@
 4. Run: mvn spring-boot:run
 5. Spring will execute schema.sql and create the required tables
 
-Updated Logging
+Demo
