@@ -12,6 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsible for handling inventory-related operations.
+ * Provides functionality to view, create, and update inventory records.
+ */
 @Controller
 @RequestMapping("/inventory")
 public class InventoryController {
@@ -21,11 +25,23 @@ public class InventoryController {
     private final InventoryService inventoryService;
     private final ProductService productService;
 
+    /**
+     * Constructor for InventoryController.
+     *
+     * @param inventoryService service used to manage inventory operations
+     * @param productService service used to retrieve product data
+     */
     public InventoryController(InventoryService inventoryService, ProductService productService) {
         this.inventoryService = inventoryService;
         this.productService = productService;
     }
 
+    /**
+     * Displays a list of all inventory records.
+     *
+     * @param model the model used to pass inventory data to the view
+     * @return the inventory view page
+     */
     @GetMapping
     public String listInventory(Model model) {
         logger.info("Entering listInventory()");
@@ -34,6 +50,12 @@ public class InventoryController {
         return "inventory";
     }
 
+    /**
+     * Displays the form to add a new inventory record.
+     *
+     * @param model the model used to pass inventory and product data to the view
+     * @return the inventory form page
+     */
     @GetMapping("/add")
     public String showAddForm(Model model) {
         logger.info("Entering showAddForm()");
@@ -43,6 +65,16 @@ public class InventoryController {
         return "inventory-form";
     }
 
+    /**
+     * Saves a new or updated inventory record.
+     * Validates input and prevents duplicate inventory entries for the same product.
+     *
+     * @param inventory the inventory object submitted from the form
+     * @param result contains validation results
+     * @param productId the ID of the associated product
+     * @param model the model used to return data to the view in case of errors
+     * @return redirect to inventory page or back to form if validation fails
+     */
     @PostMapping("/save")
     public String saveInventory(@Valid @ModelAttribute("inventory") Inventory inventory,
                                 BindingResult result,
@@ -80,6 +112,13 @@ public class InventoryController {
         return "redirect:/inventory";
     }
 
+    /**
+     * Displays the form to edit an existing inventory record.
+     *
+     * @param id the ID of the inventory record to edit
+     * @param model the model used to pass inventory and product data to the view
+     * @return the inventory form page
+     */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         logger.info("Entering showEditForm() with id={}", id);

@@ -10,6 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsible for handling product-related operations.
+ * Provides functionality to view, create, update, and delete products.
+ */
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -18,10 +22,23 @@ public class ProductController {
 
     private final ProductService productService;
 
+    /**
+     * Constructor for ProductController.
+     *
+     * @param productService service used to manage product operations
+     */
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
+    /**
+     * Displays a list of all products.
+     * Also handles optional error messaging for failed delete operations.
+     *
+     * @param model the model used to pass product data to the view
+     * @param deleteError optional error message if delete fails
+     * @return the products view page
+     */
     @GetMapping
     public String listProducts(Model model,
                                @RequestParam(value = "deleteError", required = false) String deleteError) {
@@ -36,6 +53,12 @@ public class ProductController {
         return "products";
     }
 
+    /**
+     * Displays the form to add a new product.
+     *
+     * @param model the model used to pass a new product object to the view
+     * @return the product form page
+     */
     @GetMapping("/add")
     public String showAddForm(Model model) {
         logger.info("Entering showAddForm()");
@@ -44,6 +67,13 @@ public class ProductController {
         return "product-form";
     }
 
+    /**
+     * Saves a new or updated product.
+     *
+     * @param product the product object submitted from the form
+     * @param result contains validation results
+     * @return redirect to products page or back to form if validation fails
+     */
     @PostMapping("/save")
     public String saveProduct(@Valid @ModelAttribute("product") Product product,
                               BindingResult result) {
@@ -61,6 +91,13 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    /**
+     * Displays the form to edit an existing product.
+     *
+     * @param id the ID of the product to edit
+     * @param model the model used to pass product data to the view
+     * @return the product form page
+     */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         logger.info("Entering showEditForm() with id={}", id);
@@ -72,6 +109,12 @@ public class ProductController {
         return "product-form";
     }
 
+    /**
+     * Deletes a product by ID if it is not associated with inventory or orders.
+     *
+     * @param id the ID of the product to delete
+     * @return redirect to products page with optional error message if delete fails
+     */
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         logger.info("Entering deleteProduct() with id={}", id);

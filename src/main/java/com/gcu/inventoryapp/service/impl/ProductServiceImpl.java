@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation responsible for handling product-related business logic.
+ * Provides operations for retrieving, saving, and safely deleting products.
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -21,6 +25,13 @@ public class ProductServiceImpl implements ProductService {
     private final InventoryRepository inventoryRepository;
     private final OrderItemRepository orderItemRepository;
 
+    /**
+     * Constructor for ProductServiceImpl.
+     *
+     * @param productRepository repository used to access product data
+     * @param inventoryRepository repository used to check inventory relationships
+     * @param orderItemRepository repository used to check order item relationships
+     */
     public ProductServiceImpl(ProductRepository productRepository,
                               InventoryRepository inventoryRepository,
                               OrderItemRepository orderItemRepository) {
@@ -29,6 +40,11 @@ public class ProductServiceImpl implements ProductService {
         this.orderItemRepository = orderItemRepository;
     }
 
+    /**
+     * Retrieves all products from the database.
+     *
+     * @return a list of all products
+     */
     @Override
     public List<Product> getAllProducts() {
         logger.info("Entering getAllProducts()");
@@ -37,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
+    /**
+     * Retrieves a product by its ID.
+     *
+     * @param id the ID of the product
+     * @return an Optional containing the product if found, otherwise empty
+     */
     @Override
     public Optional<Product> getProductById(Long id) {
         logger.info("Entering getProductById() with id={}", id);
@@ -52,6 +74,12 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    /**
+     * Saves a new or existing product to the database.
+     *
+     * @param product the product to save
+     * @return the saved product with updated ID
+     */
     @Override
     public Product saveProduct(Product product) {
         logger.info("Entering saveProduct() for product name={}", product.getName());
@@ -60,12 +88,18 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct;
     }
 
+    /**
+     * Deletes a product by ID if it is not associated with inventory or order items.
+     *
+     * @param id the ID of the product to delete
+     * @return true if the product was successfully deleted, false if it is linked to other records
+     */
     @Override
     public boolean deleteProduct(Long id) {
         logger.info("Entering deleteProduct() with id={}", id);
 
-boolean hasInventory = inventoryRepository.existsByProduct_Id(id);
-boolean hasOrderItems = orderItemRepository.existsByProduct_Id(id);
+        boolean hasInventory = inventoryRepository.existsByProduct_Id(id);
+        boolean hasOrderItems = orderItemRepository.existsByProduct_Id(id);
 
         if (hasInventory || hasOrderItems) {
             logger.warn("Cannot delete product id={} because it is linked to inventory or order items", id);

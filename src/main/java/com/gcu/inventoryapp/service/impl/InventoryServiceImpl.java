@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation responsible for handling inventory-related business logic.
+ * Provides operations for retrieving, saving, and analyzing inventory data.
+ */
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
@@ -17,10 +21,20 @@ public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
+    /**
+     * Constructor for InventoryServiceImpl.
+     *
+     * @param inventoryRepository repository used to access inventory data
+     */
     public InventoryServiceImpl(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 
+    /**
+     * Retrieves all inventory records from the database.
+     *
+     * @return a list of all inventory records
+     */
     @Override
     public List<Inventory> getAllInventory() {
         logger.info("Entering getAllInventory()");
@@ -29,6 +43,12 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryList;
     }
 
+    /**
+     * Retrieves an inventory record by its ID.
+     *
+     * @param id the ID of the inventory record
+     * @return an Optional containing the inventory record if found, otherwise empty
+     */
     @Override
     public Optional<Inventory> getInventoryById(Long id) {
         logger.info("Entering getInventoryById() with id={}", id);
@@ -45,6 +65,12 @@ public class InventoryServiceImpl implements InventoryService {
         return inventory;
     }
 
+    /**
+     * Saves a new or existing inventory record.
+     *
+     * @param inventory the inventory record to save
+     * @return the saved inventory record with updated ID
+     */
     @Override
     public Inventory saveInventory(Inventory inventory) {
         logger.info("Entering saveInventory() for productId={}, quantity={}",
@@ -57,6 +83,12 @@ public class InventoryServiceImpl implements InventoryService {
         return savedInventory;
     }
 
+    /**
+     * Retrieves all inventory records that fall below a specified threshold.
+     *
+     * @param threshold the quantity threshold used to determine low stock
+     * @return a list of inventory items below the threshold
+     */
     @Override
     public List<Inventory> getLowStock(int threshold) {
         logger.info("Entering getLowStock() with threshold={}", threshold);
@@ -67,6 +99,12 @@ public class InventoryServiceImpl implements InventoryService {
         return lowStockItems;
     }
 
+    /**
+     * Retrieves an inventory record by product ID.
+     *
+     * @param productId the ID of the associated product
+     * @return an Optional containing the inventory record if found, otherwise empty
+     */
     @Override
     public Optional<Inventory> getInventoryByProductId(Long productId) {
         logger.info("Entering getInventoryByProductId() with productId={}", productId);

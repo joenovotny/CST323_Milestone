@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation responsible for handling order-related business logic.
+ * Provides operations for retrieving, saving, and filtering orders.
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -18,10 +22,20 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderHeaderRepository orderHeaderRepository;
 
+    /**
+     * Constructor for OrderServiceImpl.
+     *
+     * @param orderHeaderRepository repository used to access order data
+     */
     public OrderServiceImpl(OrderHeaderRepository orderHeaderRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
     }
 
+    /**
+     * Retrieves all orders from the database.
+     *
+     * @return a list of all orders
+     */
     @Override
     public List<OrderHeader> getAllOrders() {
         logger.info("Entering getAllOrders()");
@@ -30,6 +44,12 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    /**
+     * Retrieves an order by its ID.
+     *
+     * @param id the ID of the order
+     * @return an Optional containing the order if found, otherwise empty
+     */
     @Override
     public Optional<OrderHeader> getOrderById(Long id) {
         logger.info("Entering getOrderById() with id={}", id);
@@ -46,6 +66,12 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    /**
+     * Saves a new or existing order to the database.
+     *
+     * @param orderHeader the order to save
+     * @return the saved order with updated ID
+     */
     @Override
     public OrderHeader saveOrder(OrderHeader orderHeader) {
         logger.info("Entering saveOrder() for customerId={}, total={}",
@@ -58,6 +84,13 @@ public class OrderServiceImpl implements OrderService {
         return savedOrder;
     }
 
+    /**
+     * Retrieves orders within a specified date range.
+     *
+     * @param start the start date and time
+     * @param end the end date and time
+     * @return a list of orders within the specified date range
+     */
     @Override
     public List<OrderHeader> getOrdersByDateRange(LocalDateTime start, LocalDateTime end) {
         logger.info("Entering getOrdersByDateRange() from {} to {}", start, end);

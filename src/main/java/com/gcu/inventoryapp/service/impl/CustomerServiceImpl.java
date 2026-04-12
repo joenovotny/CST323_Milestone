@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation responsible for handling customer-related business logic.
+ * Interacts with the CustomerRepository to perform CRUD operations.
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -17,10 +21,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    /**
+     * Constructor for CustomerServiceImpl.
+     *
+     * @param customerRepository repository used to access customer data
+     */
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
+    /**
+     * Retrieves all customers from the database.
+     *
+     * @return a list of all customers
+     */
     @Override
     public List<Customer> getAllCustomers() {
         logger.info("Entering getAllCustomers()");
@@ -29,6 +43,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customers;
     }
 
+    /**
+     * Retrieves a customer by their ID.
+     *
+     * @param id the ID of the customer
+     * @return an Optional containing the customer if found, otherwise empty
+     */
     @Override
     public Optional<Customer> getCustomerById(Long id) {
         logger.info("Entering getCustomerById() with id={}", id);
@@ -45,6 +65,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
+    /**
+     * Saves a new or existing customer to the database.
+     *
+     * @param customer the customer to save
+     * @return the saved customer with updated ID
+     */
     @Override
     public Customer saveCustomer(Customer customer) {
         logger.info("Entering saveCustomer() for customer email={}", customer.getEmail());
@@ -55,6 +81,11 @@ public class CustomerServiceImpl implements CustomerService {
         return savedCustomer;
     }
 
+    /**
+     * Deletes a customer by their ID.
+     *
+     * @param id the ID of the customer to delete
+     */
     @Override
     public void deleteCustomer(Long id) {
         logger.info("Entering deleteCustomer() with id={}", id);

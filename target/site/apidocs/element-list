@@ -1,0 +1,6 @@
+com.gcu.inventoryapp
+com.gcu.inventoryapp.controller
+com.gcu.inventoryapp.model
+com.gcu.inventoryapp.repository
+com.gcu.inventoryapp.service
+com.gcu.inventoryapp.service.impl
